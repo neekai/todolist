@@ -12,9 +12,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '../static')));
 
+app.get('/landing', function(req, res) {
+    res.send('this would be the landing page soon!');
+});
+
 app.listen(PORT, (err) => {
     if(err){throw err;} 
     else {
         console.log('server has started on ', PORT);
     }
-})
+});

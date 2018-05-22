@@ -1,14 +1,19 @@
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
+module.exports = {};
+const mongoose = require('mongoose');
 
-const db = MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  var dbo = db.db("mydb");
-  dbo.createCollection("customers", function(err, res) {
-    if (err) throw err;
-    console.log("Collection created!");
-    db.close();
-  });
+mongoose.connect('mongodb://localhost/todo_list');
+
+var userSchema = new mongoose.Schema({
+  username: String,
+  password: String
 });
 
-module.exports = db;
+module.exports.User = mongoose.model('User', userSchema);
+
+module.exports.User.find({}, (err, users) => {
+  if(err) {throw err;}
+  else {
+    console.log('All the users....', users);
+  }
+});
+
