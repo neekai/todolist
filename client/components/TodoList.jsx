@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'
 import TodoListEntry from './TodoListEntry.jsx'; 
 
 class TodoList extends React.Component {
@@ -10,6 +11,23 @@ class TodoList extends React.Component {
             todos: [],
         }
         this.deleteTodo = this.deleteTodo.bind(this);
+    }
+
+    componentDidMount() {
+      this.fetchTodosFromDB();
+    }
+
+    fetchTodosFromDB() {
+      axios.get('/api/todos')
+      .then(data => {
+          console.log('we got the data from fetchTodos..', data)
+          console.log('here', [...data.data])
+          const todosArr = [];
+          data.data.forEach(function(todo){ todosArr.push(todo.todo)})
+          this.setState({
+              todos: todosArr
+          }, () => {console.log('this.state.todos = ', this.state.todos)})
+      })
     }
 
     handleInput(e) {
@@ -24,6 +42,15 @@ class TodoList extends React.Component {
             todos: [...this.state.todos, this.state.todo]
         });
         e.target.reset();
+        axios.post('/api/todos', {
+            todo: this.state.todo
+        })
+        .then(function(response) {
+            console.log('saved in todo', response);
+        })
+        .catch(function(error) {
+            console.log('there is an error with saving..', error);
+        });
     }
 
     deleteTodo(index) {
@@ -31,14 +58,14 @@ class TodoList extends React.Component {
         todos.splice(index, 1);
         this.setState({
             todos: todos
-        })
+        });
     }
 
     render() {
         return (
             <div>
                 <h1>MY TODO-LIST</h1>
-                <form onSubmit = {(e) => this.handleSubmit(e)}>
+                <form method="post" onSubmit = {(e) => this.handleSubmit(e)}>
                     Add Todo: <input onKeyUp={(e) => this.handleInput(e)} type="text"/>
                     <button>Submit!</button>
                 </form>

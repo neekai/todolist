@@ -8,7 +8,12 @@ var userSchema = new mongoose.Schema({
   password: String
 });
 
+var todoSchema = new mongoose.Schema({
+  todo: String,   
+});
+
 module.exports.User = mongoose.model('User', userSchema);
+module.exports.Todo = mongoose.model('Todo', todoSchema);
 
 module.exports.User.find({}, (err, users) => {
   if(err) {throw err;}

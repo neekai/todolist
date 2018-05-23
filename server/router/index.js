@@ -1,4 +1,8 @@
 const router = require('express').Router();
+const { todoCtrl } = require('../controller/todoController.js')
 
+router.route('/todos')
+      .get(todoCtrl.get)
+      .post(todoCtrl.post);
 
-// router.get('/', controller.get);
+module.exports.router = router;

@@ -31,7 +31,7 @@ class SignUp extends React.Component {
             <div>
                 <h1>Welcome to your To-do List!</h1>
                 <h2>Sign Up</h2>
-                <form>
+                <form method="post">
                     Username: <input type="text" />
                     Password: <input type="text" />
                     <button>Submit</button>
